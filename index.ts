@@ -1,48 +1,27 @@
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
+class Todo {
+    constructor(
+        public id: number,
+        public task: string,
+        public completed: boolean = false
+    ) {}
 }
 
-let todos: Todo[] = [];
+class TodoList {
+    private todos: Todo[] = [];
 
-function addTodo(title: string): Todo {
-  const newTodo: Todo = {
-    id: todos.length + 1,
-    title,
-    completed: false
-  };
-  todos.push(newTodo);
-  return newTodo;
+    addTodo(task: string): void {
+        const id = this.todos.length + 1;
+        this.todos.push(new Todo(id, task));
+    }
+
+    listTodos(): void {
+        this.todos.forEach(todo => {
+            console.log(`${todo.id}: ${todo.task} [${todo.completed ? "Done" : "Pending"}]`);
+        });
+    }
 }
 
-function listTodos(): void {
-  todos.forEach(todo => {
-    console.log(
-      `${todo.id}: ${todo.title} [${todo.completed ? "Completed" : "Pending"}]`
-    );
-  });
-}
-
-function completeTodo(id: number): void {
-  const todo = todos.find(t => t.id === id);
-  if (todo) {
-    todo.completed = true;
-  }
-}
-
-function removeTodo(id: number): void {
-  todos = todos.filter(todo => todo.id !== id);
-}
-
-/* ===== EXECUTION (REQUIRED) ===== */
-
-addTodo("Learn TypeScript");
-addTodo("Finish Lab 3");
-
-listTodos();
-
-completeTodo(1);
-removeTodo(2);
-
-listTodos();
+const myTodos = new TodoList();
+myTodos.addTodo("Finish TypeScript assignment");
+myTodos.addTodo("Submit to GitHub");
+myTodos.listTodos();
